@@ -154,6 +154,7 @@ object MainForm: TMainForm
             '奇校验'
             '偶校验'
           )
+          OnEditingDone = SerialParamComboBoxEditingDone
           ReadOnly = True
           Style = csDropDownList
           TabOrder = 4
@@ -202,6 +203,7 @@ object MainForm: TMainForm
             '6'
             '5'
           )
+          OnEditingDone = SerialParamComboBoxEditingDone
           ReadOnly = True
           Style = csDropDownList
           TabOrder = 2
@@ -249,6 +251,7 @@ object MainForm: TMainForm
             '1.5'
             '1'
           )
+          OnEditingDone = SerialParamComboBoxEditingDone
           ReadOnly = True
           Style = csDropDownList
           TabOrder = 3
@@ -306,6 +309,7 @@ object MainForm: TMainForm
             '2400'
             '1200'
           )
+          OnEditingDone = SerialParamComboBoxEditingDone
           TabOrder = 1
           Text = '115200'
         end

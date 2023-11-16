@@ -45,10 +45,12 @@ type
         SerialTabSheet: TTabSheet;
         TabSheet2: TTabSheet;
 
+
+        procedure SerialParamComboBoxEditingDone(Sender: TObject);
         procedure ClearButtonClick(Sender: TObject);
         procedure closeButtonClick(Sender: TObject);
         procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
-        procedure openButtonClick(Sender: TObject);
+        procedure OpenButtonClick(Sender: TObject);
         procedure sendButtonClick(Sender: TObject);
         procedure SerialListTimerTimer(Sender: TObject);
         procedure SerialSendTimerTimer(Sender: TObject);
@@ -58,9 +60,10 @@ type
         serialThr: SerialThread;
         serialPort: TBlockSerial;
         function isSerialConnected(): boolean;
-        procedure closeSerial();
+        procedure CloseSerial();
         procedure processReceivedSerialData(Data: string);
         procedure showWarnBox(message: string);
+        function ConfigureSerial(serial: TBlockSerial): boolean;
     public
         constructor Create(TheOwner: TComponent); override;
     end;
@@ -83,72 +86,57 @@ begin
 
 end;
 
+procedure TMainForm.SerialParamComboBoxEditingDone(Sender: TObject);
+begin
+    if isSerialConnected() then
+        ConfigureSerial(serialPort);
+end;
+
+
+
 procedure TMainForm.closeButtonClick(Sender: TObject);
 begin
-    closeSerial();
+    CloseSerial();
     openButton.Enabled := True;
     serialComboBox.Enabled := True;
 end;
 
 procedure TMainForm.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
-    closeSerial();
+    CloseSerial();
     FreeAndNil(serialPort);
 end;
 
 
 
-procedure TMainForm.openButtonClick(Sender: TObject);
-var
-    baudRate: integer;
-    databit: integer;
-    paritybit: char;
-    stopbit: integer;
+procedure TMainForm.OpenButtonClick(Sender: TObject);
+
 begin
 
-    if TryStrToInt(baudrateComboBox.Text, baudRate) then
-        baudrate := StrToInt(baudrateComboBox.Text)
-    else
+    openButton.Enabled := False; // 防止多次点击
+    serialPort := TBlockSerial.Create();
+    serialPort.Connect(serialComboBox.Text);
+    if not ConfigureSerial(serialPort) then
     begin
-        showWarnBox('波特率参数错误');
         Exit;
     end;
-
-    databit := StrToInt(databitComboBox.Text);
-
-    case (paritybitComboBox.Text) of
-        '无': paritybit := 'N';
-        '奇校验': paritybit := 'O';
-        '偶校验': paritybit := 'E';
-        else
-            paritybit := 'N';
-    end;
-
-    case (stopbitComboBox.Text) of
-        '1': stopbit := SB1;
-        '1.5': stopbit := SB1andHalf;
-        '2': stopbit := SB2;
-        //else
-        //  stopbit := SB1;
-    end;
-
-    openButton.Enabled := False; // 防止多次点击
-    serialPort.Connect(serialComboBox.Text);
     if isSerialConnected() then
     begin
-        serialPort.Config(baudrate, databit, paritybit, stopbit,
-            False, False);
+        //serialPort.Config(baudrate, databit, paritybit, stopbit,
+        //    False, False);
         serialThr := SerialThread.Create(True, serialPort);
         serialThr.OnRecvData := @processReceivedSerialData;
         serialThr.Start;
         serialComboBox.Enabled := False;
         openButton.Enabled := False;
+        closeButton.Enabled := True;
     end
     else
     begin
         showWarnBox('串口打开失败');
         openButton.Enabled := True;
         closeButton.Enabled := False;
+        CloseSerial();
     end;
 end;
 
@@ -240,7 +228,7 @@ begin
     Result := ((serialPort <> nil) and serialPort.InstanceActive);
 end;
 
-procedure TMainForm.closeSerial;
+procedure TMainForm.CloseSerial;
 begin
     if isSerialConnected() then
     begin
@@ -248,6 +236,7 @@ begin
         serialPort.Purge();
         serialPort.CloseSocket();
         serialThr.Terminate();
+        FreeAndNil(serialPort);
     end;
 end;
 
@@ -266,10 +255,16 @@ begin
     else
     begin
         hexResult := '';
+        if RecvMemo.GetTextLen() > 0 then
+            hexResult += ':';
         SetLength(hexArr, Data.Length * 2);
         BinToHex(Pointer(Data), PChar(hexArr), Data.Length);
         for i := 0 to High(hexArr) div 2 do
-            hexResult := hexResult + hexArr[i * 2] + hexArr[i * 2 + 1] + ':';
+        begin
+            hexResult := hexResult + hexArr[i * 2] + hexArr[i * 2 + 1];
+            if i * 2 + 1 < High(hexArr) - 1 then
+                hexResult := hexResult + ':';
+        end;
         RecvMemo.SelText := ansistring(hexResult);
     end;
 end;
@@ -281,6 +276,41 @@ begin
     box := CreateMessageDialog(message, mtWarning, [mbClose]);
     box.Position := poOwnerFormCenter;
     box.ShowModal;
+end;
+
+function TMainForm.ConfigureSerial(serial: TBlockSerial): boolean;
+var
+    baudRate: integer;
+    databit: integer;
+    paritybit: char;
+    stopbit: integer;
+begin
+    if TryStrToInt(baudrateComboBox.Text, baudRate) then
+        baudrate := StrToInt(baudrateComboBox.Text)
+    else
+    begin
+        showWarnBox('波特率参数错误');
+        Exit(False);
+    end;
+
+    databit := StrToInt(databitComboBox.Text);
+
+    case (paritybitComboBox.Text) of
+        '无': paritybit := 'N';
+        '奇校验': paritybit := 'O';
+        '偶校验': paritybit := 'E';
+        else
+            paritybit := 'N';
+    end;
+
+    case (stopbitComboBox.Text) of
+        '1': stopbit := SB1;
+        '1.5': stopbit := SB1andHalf;
+        '2': stopbit := SB2;
+        //else
+        //  stopbit := SB1;
+    end;
+    Exit(True);
 end;
 
 constructor TMainForm.Create(TheOwner: TComponent);
