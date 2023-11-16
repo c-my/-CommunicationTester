@@ -3,7 +3,7 @@ object MainForm: TMainForm
   Height = 550
   Top = 318
   Width = 900
-  Caption = 'MainForm'
+  Caption = 'CommunicationTester'
   ClientHeight = 550
   ClientWidth = 900
   Font.CharSet = ANSI_CHARSET
