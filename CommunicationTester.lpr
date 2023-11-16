@@ -1,4 +1,4 @@
-program SerialAsst;
+program CommunicationTester;
 
 {$mode objfpc}{$H+}
 
@@ -17,7 +17,8 @@ uses
 
 begin
     RequireDerivedFormResource := True;
-    Application.Scaled := True;
+  Application.Title:='CommunicationTester';
+  Application.Scaled:=True;
     Application.Initialize;
   Application.CreateForm(TMainForm, MainForm);
     Application.Run;

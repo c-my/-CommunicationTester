@@ -5,7 +5,7 @@
     <PathDelim Value="\"/>
     <General>
       <SessionStorage Value="InProjectDir"/>
-      <Title Value="SerialAsst"/>
+      <Title Value="CommunicationTester"/>
       <Scaled Value="True"/>
       <ResourceType Value="res"/>
       <UseXPManifest Value="True"/>
@@ -21,7 +21,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="SerialAsst-debug"/>
+            <Filename Value="CommunicationTester"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
@@ -62,7 +62,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="SerialAsst-release"/>
+            <Filename Value="CommunicationTester"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
@@ -110,7 +110,7 @@
     </RequiredPackages>
     <Units>
       <Unit>
-        <Filename Value="SerialAsst.lpr"/>
+        <Filename Value="CommunicationTester.lpr"/>
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
@@ -131,7 +131,7 @@
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="SerialAsst"/>
+      <Filename Value="CommunicationTester"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
