@@ -1,17 +1,16 @@
 object MainForm: TMainForm
   Left = 414
-  Height = 550
+  Height = 600
   Top = 318
-  Width = 900
+  Width = 960
   Caption = 'CommunicationTester'
-  ClientHeight = 550
-  ClientWidth = 900
+  ClientHeight = 600
+  ClientWidth = 960
   Font.CharSet = ANSI_CHARSET
   Font.Height = -16
   Font.Name = 'Segoe UI'
   Font.Pitch = fpVariable
   Font.Quality = fqDraft
-  OnClose = FormClose
   object MainPageControl: TPageControl
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
@@ -20,9 +19,9 @@ object MainForm: TMainForm
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
     Left = 10
-    Height = 530
+    Height = 580
     Top = 10
-    Width = 880
+    Width = 940
     ActivePage = SerialTabSheet
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Left = 10
@@ -39,584 +38,81 @@ object MainForm: TMainForm
     TabOrder = 0
     object SerialTabSheet: TTabSheet
       Caption = '串口'
-      ClientHeight = 496
-      ClientWidth = 872
-      object SerialGroupBox: TGroupBox
-        AnchorSideLeft.Control = Owner
+      ClientHeight = 546
+      ClientWidth = 932
+      inline SerialPortFrame1: SerialPortFrame
+        AnchorSideLeft.Control = SerialTabSheet
         AnchorSideTop.Control = SerialTabSheet
+        AnchorSideRight.Control = SerialTabSheet
+        AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Control = SerialTabSheet
         AnchorSideBottom.Side = asrBottom
-        Left = 20
-        Height = 466
-        Top = 20
-        Width = 180
-        Anchors = [akTop, akLeft, akBottom]
-        BorderSpacing.Left = 20
-        BorderSpacing.Top = 20
-        BorderSpacing.Bottom = 10
-        BorderSpacing.InnerBorder = 1
-        Caption = '参数设置'
-        ClientHeight = 440
-        ClientWidth = 176
-        Font.CharSet = ANSI_CHARSET
-        Font.Height = -16
-        Font.Name = 'Microsoft YaHei UI'
-        Font.Pitch = fpVariable
-        Font.Quality = fqDraft
-        ParentFont = False
-        ParentShowHint = False
-        ShowHint = True
-        TabOrder = 0
-        object serialLabel: TLabel
-          AnchorSideLeft.Control = SerialGroupBox
-          AnchorSideTop.Control = paritybitComboBox
-          AnchorSideTop.Side = asrBottom
-          AnchorSideRight.Control = serialComboBox
-          AnchorSideBottom.Control = openButton
-          Left = 5
-          Height = 23
-          Top = 342
-          Width = 51
-          Anchors = [akLeft, akBottom]
-          AutoSize = False
-          BorderSpacing.Left = 5
-          BorderSpacing.Top = 40
-          BorderSpacing.Right = 20
-          BorderSpacing.Bottom = 30
-          Caption = '串  口'
-          Font.CharSet = GB2312_CHARSET
-          Font.Height = -16
-          Font.Pitch = fpVariable
-          Font.Quality = fqDraft
-          Layout = tlCenter
-          ParentColor = False
-          ParentFont = False
-        end
-        object serialComboBox: TComboBox
-          AnchorSideLeft.Control = serialLabel
-          AnchorSideLeft.Side = asrBottom
-          AnchorSideTop.Control = serialLabel
-          AnchorSideTop.Side = asrCenter
-          Left = 76
-          Height = 29
-          Top = 339
-          Width = 88
-          AutoSize = False
-          BorderSpacing.Left = 5
-          BorderSpacing.Top = 25
-          ItemHeight = 21
-          ParentShowHint = False
-          ReadOnly = True
-          ShowHint = True
-          Style = csDropDownList
-          TabOrder = 0
-          TextHint = '(无)'
-        end
-        object paritybitLabel: TLabel
-          AnchorSideLeft.Control = SerialGroupBox
-          AnchorSideTop.Control = stopbitLabel
-          AnchorSideTop.Side = asrBottom
-          AnchorSideRight.Control = paritybitComboBox
-          Left = 5
-          Height = 23
-          Top = 179
-          Width = 51
-          AutoSize = False
-          BorderSpacing.Left = 5
-          BorderSpacing.Top = 30
-          BorderSpacing.Right = 20
-          BorderSpacing.Bottom = 1
-          Caption = '校验位'
-          Font.CharSet = GB2312_CHARSET
-          Font.Height = -16
-          Font.Pitch = fpVariable
-          Font.Quality = fqDraft
-          Layout = tlCenter
-          ParentColor = False
-          ParentFont = False
-        end
-        object paritybitComboBox: TComboBox
-          AnchorSideLeft.Control = paritybitLabel
-          AnchorSideLeft.Side = asrBottom
-          AnchorSideTop.Control = paritybitLabel
-          AnchorSideTop.Side = asrCenter
-          Left = 76
-          Height = 29
-          Top = 176
-          Width = 88
-          AutoSize = False
-          BorderSpacing.Left = 5
-          BorderSpacing.Top = 20
-          ItemHeight = 21
-          ItemIndex = 0
-          Items.Strings = (
-            '无'
-            '奇校验'
-            '偶校验'
-          )
-          OnEditingDone = SerialParamComboBoxEditingDone
-          ReadOnly = True
-          Style = csDropDownList
-          TabOrder = 4
-          Text = '无'
-        end
-        object databitLabel: TLabel
-          AnchorSideLeft.Control = SerialGroupBox
-          AnchorSideTop.Control = baudrateLabel
-          AnchorSideTop.Side = asrBottom
-          AnchorSideRight.Control = databitComboBox
-          Left = 5
-          Height = 23
-          Top = 73
-          Width = 51
-          AutoSize = False
-          BorderSpacing.Left = 5
-          BorderSpacing.Top = 30
-          BorderSpacing.Right = 20
-          BorderSpacing.Bottom = 1
-          Caption = '数据位'
-          Font.CharSet = GB2312_CHARSET
-          Font.Height = -16
-          Font.Pitch = fpVariable
-          Font.Quality = fqDraft
-          Layout = tlCenter
-          ParentColor = False
-          ParentFont = False
-        end
-        object databitComboBox: TComboBox
-          AnchorSideLeft.Control = databitLabel
-          AnchorSideLeft.Side = asrBottom
-          AnchorSideTop.Control = databitLabel
-          AnchorSideTop.Side = asrCenter
-          Left = 76
-          Height = 29
-          Top = 70
-          Width = 90
-          AutoSize = False
-          BorderSpacing.Left = 5
-          BorderSpacing.Top = 20
-          ItemHeight = 21
-          ItemIndex = 0
-          Items.Strings = (
-            '8'
-            '7'
-            '6'
-            '5'
-          )
-          OnEditingDone = SerialParamComboBoxEditingDone
-          ReadOnly = True
-          Style = csDropDownList
-          TabOrder = 2
-          Text = '8'
-        end
-        object stopbitLabel: TLabel
-          AnchorSideLeft.Control = SerialGroupBox
-          AnchorSideTop.Control = databitLabel
-          AnchorSideTop.Side = asrBottom
-          AnchorSideRight.Control = stopbitComboBox
-          Left = 5
-          Height = 23
-          Top = 126
-          Width = 51
-          AutoSize = False
-          BorderSpacing.Left = 5
-          BorderSpacing.Top = 30
-          BorderSpacing.Right = 20
-          BorderSpacing.Bottom = 1
-          Caption = '停止位'
-          Font.CharSet = GB2312_CHARSET
-          Font.Height = -16
-          Font.Pitch = fpVariable
-          Font.Quality = fqDraft
-          Layout = tlCenter
-          ParentColor = False
-          ParentFont = False
-        end
-        object stopbitComboBox: TComboBox
-          AnchorSideLeft.Control = stopbitLabel
-          AnchorSideLeft.Side = asrBottom
-          AnchorSideTop.Control = stopbitLabel
-          AnchorSideTop.Side = asrCenter
-          Left = 76
-          Height = 29
-          Top = 123
-          Width = 90
-          AutoSize = False
-          BorderSpacing.Left = 5
-          BorderSpacing.Top = 20
-          ItemHeight = 21
-          ItemIndex = 2
-          Items.Strings = (
-            '2'
-            '1.5'
-            '1'
-          )
-          OnEditingDone = SerialParamComboBoxEditingDone
-          ReadOnly = True
-          Style = csDropDownList
-          TabOrder = 3
-          Text = '1'
-        end
-        object baudrateLabel: TLabel
-          AnchorSideLeft.Control = SerialGroupBox
-          AnchorSideTop.Control = SerialGroupBox
-          AnchorSideRight.Control = baudrateComboBox
-          Left = 5
-          Height = 23
-          Top = 20
-          Width = 51
-          AutoSize = False
-          BorderSpacing.Left = 5
-          BorderSpacing.Top = 20
-          BorderSpacing.Right = 20
-          BorderSpacing.Bottom = 1
-          Caption = '波特率'
-          Font.CharSet = ANSI_CHARSET
-          Font.Height = -16
-          Font.Name = 'Microsoft YaHei UI'
-          Font.Pitch = fpVariable
-          Font.Quality = fqDraft
-          Layout = tlCenter
-          ParentColor = False
-          ParentFont = False
-        end
-        object baudrateComboBox: TComboBox
-          AnchorSideLeft.Control = baudrateLabel
-          AnchorSideLeft.Side = asrBottom
-          AnchorSideTop.Control = baudrateLabel
-          AnchorSideTop.Side = asrCenter
-          Left = 76
-          Height = 29
-          Top = 17
-          Width = 88
-          AutoSize = False
-          BorderSpacing.Left = 5
-          ItemHeight = 21
-          ItemIndex = 3
-          Items.Strings = (
-            '256000'
-            '230400'
-            '128000'
-            '115200'
-            '76800'
-            '57600'
-            '43000'
-            '38400'
-            '19200'
-            '14400'
-            '9600'
-            '4800'
-            '2400'
-            '1200'
-          )
-          OnEditingDone = SerialParamComboBoxEditingDone
-          TabOrder = 1
-          Text = '115200'
-        end
-        object openButton: TButton
-          AnchorSideBottom.Control = SerialGroupBox
-          AnchorSideBottom.Side = asrBottom
-          Left = 5
-          Height = 25
-          Top = 395
-          Width = 75
-          Anchors = [akLeft, akBottom]
-          BorderSpacing.Bottom = 20
-          Caption = '打开'
-          Enabled = False
-          Font.Height = -16
-          OnClick = openButtonClick
-          ParentFont = False
-          TabOrder = 5
-        end
-        object closeButton: TButton
-          AnchorSideBottom.Control = SerialGroupBox
-          AnchorSideBottom.Side = asrBottom
-          Left = 91
-          Height = 25
-          Top = 395
-          Width = 75
-          Anchors = [akLeft, akBottom]
-          BorderSpacing.Bottom = 20
-          Caption = '关闭'
-          Enabled = False
-          Font.Height = -16
-          OnClick = closeButtonClick
-          ParentFont = False
-          TabOrder = 6
-        end
-      end
-      object RecvMemo: TMemo
-        AnchorSideLeft.Control = SerialGroupBox
-        AnchorSideLeft.Side = asrBottom
-        AnchorSideTop.Control = SerialTabSheet
-        AnchorSideRight.Control = SerialSendGroupBox
-        AnchorSideBottom.Control = SendMemo
-        Left = 208
-        Height = 321
-        Top = 28
-        Width = 462
+        Height = 546
+        Width = 932
         Anchors = [akTop, akLeft, akRight, akBottom]
-        BorderSpacing.Left = 20
-        BorderSpacing.Top = 28
-        BorderSpacing.Right = 10
-        BorderSpacing.Bottom = 10
-        Font.CharSet = ANSI_CHARSET
-        Font.Height = -16
-        Font.Name = 'Consolas'
-        Font.Pitch = fpFixed
-        Font.Quality = fqDraft
-        ParentFont = False
-        ReadOnly = True
-        ScrollBars = ssAutoVertical
-        TabOrder = 1
-        WantTabs = True
-      end
-      object SendMemo: TMemo
-        AnchorSideTop.Side = asrBottom
-        AnchorSideRight.Control = SerialSendGroupBox
-        AnchorSideBottom.Control = sendButton
-        Left = 208
-        Height = 97
-        Top = 359
-        Width = 462
-        Anchors = [akLeft, akRight, akBottom]
-        BorderSpacing.Top = 10
-        BorderSpacing.Right = 10
-        BorderSpacing.Bottom = 5
-        ParentShowHint = False
-        TabOrder = 2
-      end
-      object SerialSendGroupBox: TGroupBox
-        AnchorSideRight.Control = SerialTabSheet
-        AnchorSideRight.Side = asrBottom
-        AnchorSideBottom.Control = SerialTabSheet
-        AnchorSideBottom.Side = asrBottom
-        Left = 680
-        Height = 137
-        Top = 349
-        Width = 172
-        Anchors = [akRight, akBottom]
-        BorderSpacing.Right = 20
-        BorderSpacing.Bottom = 10
-        Caption = '发送设置'
-        ClientHeight = 111
-        ClientWidth = 168
-        Font.CharSet = ANSI_CHARSET
-        Font.Height = -16
-        Font.Name = 'Microsoft YaHei UI'
-        Font.Pitch = fpVariable
-        Font.Quality = fqDraft
-        ParentFont = False
-        TabOrder = 4
-        object SendEncodingLabel: TLabel
-          AnchorSideLeft.Control = SerialSendGroupBox
-          AnchorSideTop.Control = SerialSendGroupBox
-          Left = 10
-          Height = 23
-          Top = 10
-          Width = 38
-          AutoSize = False
-          BorderSpacing.Left = 10
-          BorderSpacing.Top = 10
-          Caption = '编码'
-          Font.CharSet = GB2312_CHARSET
-          Font.Height = -16
-          Font.Pitch = fpVariable
-          Font.Quality = fqDraft
-          ParentColor = False
-          ParentFont = False
+        ClientHeight = 546
+        ClientWidth = 932
+        inherited SerialGroupBox: TGroupBox
+          AnchorSideLeft.Control = SerialPortFrame1
+          AnchorSideTop.Control = SerialPortFrame1
+          AnchorSideBottom.Control = SerialPortFrame1
+          Height = 526
+          ClientHeight = 500
+          inherited serialLabel: TLabel
+            Top = 402
+          end
+          inherited serialComboBox: TComboBox
+            Top = 399
+          end
+          inherited openButton: TButton
+            Top = 455
+          end
+          inherited closeButton: TButton
+            Top = 455
+          end
         end
-        object SendEncodingComboBox: TComboBox
-          AnchorSideLeft.Control = SendEncodingLabel
-          AnchorSideLeft.Side = asrBottom
-          AnchorSideTop.Control = SendEncodingLabel
-          AnchorSideTop.Side = asrCenter
-          Left = 58
-          Height = 29
-          Top = 7
-          Width = 100
-          Anchors = [akTop, akLeft, akBottom]
-          AutoSize = False
-          BorderSpacing.Left = 10
-          Font.Height = -16
-          ItemHeight = 21
-          ItemIndex = 0
-          Items.Strings = (
-            'UTF-8'
-            'HEX'
-          )
-          ParentFont = False
-          ReadOnly = True
-          Style = csDropDownList
-          TabOrder = 0
-          Text = 'UTF-8'
+        inherited RecvMemo: TMemo
+          AnchorSideTop.Control = SerialPortFrame1
+          Height = 358
+          Width = 529
         end
-      end
-      object RecvGroupBox: TGroupBox
-        AnchorSideTop.Control = SerialTabSheet
-        AnchorSideRight.Control = SerialTabSheet
-        AnchorSideRight.Side = asrBottom
-        AnchorSideBottom.Control = SerialSendGroupBox
-        Left = 680
-        Height = 319
-        Top = 20
-        Width = 172
-        Anchors = [akTop, akRight, akBottom]
-        BorderSpacing.Top = 20
-        BorderSpacing.Right = 20
-        BorderSpacing.Bottom = 10
-        Caption = '接收设置'
-        ClientHeight = 293
-        ClientWidth = 168
-        Font.CharSet = ANSI_CHARSET
-        Font.Height = -16
-        Font.Name = 'Microsoft YaHei UI'
-        Font.Pitch = fpVariable
-        Font.Quality = fqDraft
-        ParentFont = False
-        TabOrder = 3
-        object ClearButton: TButton
-          Left = 48
-          Height = 25
-          Top = 48
-          Width = 75
-          Caption = '清除'
-          Font.Height = -16
-          OnClick = clearButtonClick
-          ParentFont = False
-          TabOrder = 1
+        inherited SendMemo: TMemo
+          Top = 378
+          Width = 530
         end
-        object RecvEncodingLabel: TLabel
-          AnchorSideLeft.Control = RecvGroupBox
-          AnchorSideTop.Control = RecvGroupBox
-          Left = 10
-          Height = 23
-          Top = 10
-          Width = 38
-          AutoSize = False
-          BorderSpacing.Left = 10
-          BorderSpacing.Top = 10
-          Caption = '编码'
-          Font.CharSet = GB2312_CHARSET
-          Font.Height = -16
-          Font.Pitch = fpVariable
-          Font.Quality = fqDraft
-          ParentColor = False
-          ParentFont = False
+        inherited SerialSendGroupBox: TGroupBox
+          AnchorSideRight.Control = SerialPortFrame1
+          Left = 750
+          Top = 378
         end
-        object RecvEncodingComboBox: TComboBox
-          AnchorSideLeft.Control = RecvEncodingLabel
-          AnchorSideLeft.Side = asrBottom
-          AnchorSideTop.Control = RecvEncodingLabel
-          AnchorSideTop.Side = asrCenter
-          Left = 58
-          Height = 29
-          Top = 7
-          Width = 100
-          AutoSize = False
-          BorderSpacing.Left = 10
-          Font.Height = -16
-          ItemHeight = 21
-          ItemIndex = 0
-          Items.Strings = (
-            'UTF-8'
-            'HEX'
-          )
-          ParentFont = False
-          ReadOnly = True
-          Style = csDropDownList
-          TabOrder = 0
-          Text = 'UTF-8'
+        inherited RecvGroupBox: TGroupBox
+          AnchorSideTop.Control = SerialPortFrame1
+          AnchorSideRight.Control = SerialPortFrame1
+          Left = 749
+          Height = 348
+          ClientHeight = 322
         end
-      end
-      object sendButton: TButton
-        AnchorSideLeft.Control = SerialSendGroupBox
-        AnchorSideTop.Control = SendEncodingLabel
-        AnchorSideTop.Side = asrBottom
-        AnchorSideRight.Control = SerialSendGroupBox
-        AnchorSideBottom.Control = SerialTabSheet
-        AnchorSideBottom.Side = asrBottom
-        Left = 585
-        Height = 25
-        Top = 461
-        Width = 75
-        Anchors = [akRight, akBottom]
-        BorderSpacing.Left = 10
-        BorderSpacing.Top = 5
-        BorderSpacing.Right = 20
-        BorderSpacing.Bottom = 10
-        Caption = '发送'
-        Enabled = False
-        Font.Height = -16
-        OnClick = sendButtonClick
-        ParentFont = False
-        TabOrder = 5
-      end
-      object TimerCheckBox: TCheckBox
-        AnchorSideTop.Control = TimerSpinEdit
-        AnchorSideTop.Side = asrCenter
-        AnchorSideRight.Control = TimerSpinEdit
-        Left = 396
-        Height = 23
-        Top = 462
-        Width = 78
-        Anchors = [akTop, akRight]
-        BorderSpacing.Right = 5
-        Caption = '定时发送'
-        Font.CharSet = ANSI_CHARSET
-        Font.Height = -14
-        Font.Name = 'Segoe UI'
-        Font.Pitch = fpVariable
-        Font.Quality = fqDraft
-        OnChange = TimerCheckBoxChange
-        ParentFont = False
-        TabOrder = 6
-      end
-      object TimerSpinEdit: TSpinEdit
-        AnchorSideTop.Control = MSLabel
-        AnchorSideTop.Side = asrCenter
-        AnchorSideRight.Control = MSLabel
-        Left = 479
-        Height = 29
-        Top = 459
-        Width = 69
-        Anchors = [akTop, akRight]
-        BorderSpacing.Right = 5
-        MaxValue = 2147483647
-        MinValue = 1
-        OnChange = TimerSpinEditChange
-        TabOrder = 7
-        Value = 1000
-      end
-      object MSLabel: TLabel
-        AnchorSideTop.Control = sendButton
-        AnchorSideTop.Side = asrCenter
-        AnchorSideRight.Control = sendButton
-        Left = 553
-        Height = 21
-        Top = 463
-        Width = 22
-        Anchors = [akTop, akRight]
-        BorderSpacing.Right = 10
-        Caption = 'ms'
-        ParentColor = False
+        inherited sendButton: TButton
+          AnchorSideBottom.Control = SerialPortFrame1
+          Left = 655
+          Top = 511
+        end
+        inherited TimerCheckBox: TCheckBox
+          Left = 467
+          Top = 512
+        end
+        inherited TimerSpinEdit: TSpinEdit
+          Left = 550
+          Top = 509
+        end
+        inherited MSLabel: TLabel
+          Left = 624
+          Top = 513
+        end
       end
     end
     object TabSheet2: TTabSheet
       Caption = 'Socket'
     end
-  end
-  object SerialListTimer: TTimer
-    Interval = 500
-    OnTimer = SerialListTimerTimer
-    Left = 336
-    Top = 8
-  end
-  object SerialSendTimer: TTimer
-    Enabled = False
-    OnTimer = SerialSendTimerTimer
-    Left = 470
-    Top = 18
   end
 end

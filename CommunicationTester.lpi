@@ -125,6 +125,14 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="SerialManager"/>
       </Unit>
+      <Unit>
+        <Filename Value="serialportframeunit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="SerialPortFrame"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="SerialPortFrameUnit"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

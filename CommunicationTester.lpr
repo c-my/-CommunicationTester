@@ -11,7 +11,7 @@ uses
     Interfaces, // this includes the LCL widgetset
     Forms, lazcontrols,
     mainunit,
-    SerialManager { you can add units after this };
+    SerialManager, SerialPortFrameUnit { you can add units after this };
 
 {$R *.res}
 
