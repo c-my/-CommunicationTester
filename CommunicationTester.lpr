@@ -9,15 +9,15 @@ uses
   athreads,
     {$ENDIF}
     Interfaces, // this includes the LCL widgetset
-    Forms, lazcontrols,
+    Forms, lazcontrols, runtimetypeinfocontrols,
     mainunit,
-    SerialManager, SerialPortFrameUnit { you can add units after this };
+    SerialManager, SerialPortFrameUnit,
+TCPFrameUnit { you can add units after this };
 
 {$R *.res}
 
 begin
     RequireDerivedFormResource := True;
-  Application.Title:='CommunicationTester';
   Application.Scaled:=True;
     Application.Initialize;
   Application.CreateForm(TMainForm, MainForm);

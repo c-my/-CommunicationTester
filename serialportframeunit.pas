@@ -12,6 +12,8 @@ type
 
     { TMainForm }
 
+    { SerialPortFrame }
+
     SerialPortFrame = class(TFrame)
         baudrateComboBox: TComboBox;
         TimerCheckBox: TCheckBox;
@@ -55,12 +57,12 @@ type
         procedure TimerSpinEditChange(Sender: TObject);
     private
         serialThr: SerialThread;
-        serialPort: TBlockSerial;
-        function isSerialConnected(): boolean;
-        procedure CloseSerial();
+        procedure OnSerialClose();
         procedure processReceivedSerialData(Data: string);
         procedure showWarnBox(message: string);
-        function ConfigureSerial(serial: TBlockSerial): boolean;
+        function ConfigureSerial(serial: SerialThread): boolean;
+        procedure OnSerialConnected();
+        procedure OnSerialConnectedFailed();
     public
         constructor Create(TheOwner: TComponent); override;
     end;
@@ -85,23 +87,20 @@ end;
 
 procedure SerialPortFrame.SerialParamComboBoxEditingDone(Sender: TObject);
 begin
-    if isSerialConnected() then
-        ConfigureSerial(serialPort);
+    if (serialThr <> nil) and serialThr.isConnected() then
+        ConfigureSerial(serialThr);
 end;
 
 
 
 procedure SerialPortFrame.closeButtonClick(Sender: TObject);
 begin
-    CloseSerial();
-    openButton.Enabled := True;
-    serialComboBox.Enabled := True;
+    serialThr.Close();
 end;
 
 procedure SerialPortFrame.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
-    CloseSerial();
-    FreeAndNil(serialPort);
+    serialThr.Close();
 end;
 
 
@@ -109,32 +108,20 @@ end;
 procedure SerialPortFrame.OpenButtonClick(Sender: TObject);
 
 begin
-
     openButton.Enabled := False; // 防止多次点击
-    serialPort := TBlockSerial.Create();
-    serialPort.Connect(serialComboBox.Text);
-    if not ConfigureSerial(serialPort) then
+
+    serialThr := SerialThread.Create(True, serialComboBox.Text);
+    serialThr.OnConnected := @OnSerialConnected;
+    serialThr.OnConnectedFailed := @OnSerialConnectedFailed;
+    serialThr.OnRecvData := @processReceivedSerialData;
+    serialThr.OnClosed := @OnSerialClose;
+    if not ConfigureSerial(serialThr) then
     begin
+        FreeAndNil(serialThr);
         Exit;
     end;
-    if isSerialConnected() then
-    begin
-        //serialPort.Config(baudrate, databit, paritybit, stopbit,
-        //    False, False);
-        serialThr := SerialThread.Create(True, serialPort);
-        serialThr.OnRecvData := @processReceivedSerialData;
-        serialThr.Start;
-        serialComboBox.Enabled := False;
-        openButton.Enabled := False;
-        closeButton.Enabled := True;
-    end
-    else
-    begin
-        showWarnBox('串口打开失败');
-        openButton.Enabled := True;
-        closeButton.Enabled := False;
-        CloseSerial();
-    end;
+    serialThr.Start;
+
 end;
 
 procedure SerialPortFrame.sendButtonClick(Sender: TObject);
@@ -142,16 +129,16 @@ var
     hexArr: array of char;
     binBufferLen: integer;
 begin
-    if isSerialConnected and (SendMemo.GetTextLen > 0) then
+    if (serialThr <> nil) and serialThr.isConnected() and (SendMemo.GetTextLen > 0) then
     begin
         if SendEncodingComboBox.ItemIndex = 0 then
-            serialPort.SendString(SendMemo.Text)
+            serialThr.SendString(SendMemo.Text)
         else
         begin
             SetLength(hexArr, SendMemo.GetTextLen div 2);
             binBufferLen := HexToBin(PChar(SendMemo.Text), PChar(hexArr),
                 SendMemo.GetTextLen div 2);
-            serialPort.SendBuffer(PChar(hexArr), binBufferLen);
+            serialThr.SendBuffer(PChar(hexArr), binBufferLen);
         end;
     end;
 end;
@@ -181,7 +168,7 @@ begin
         openButton.Enabled := True;
     end;
     // 设置按钮状态
-    if isSerialConnected() then
+    if (serialThr <> nil) and serialThr.isConnected() then
     begin
         openButton.Enabled := False;
         sendButton.Enabled := True;
@@ -220,21 +207,11 @@ begin
 end;
 
 
-function SerialPortFrame.isSerialConnected: boolean;
+procedure SerialPortFrame.OnSerialClose;
 begin
-    Result := ((serialPort <> nil) and serialPort.InstanceActive);
-end;
-
-procedure SerialPortFrame.CloseSerial;
-begin
-    if isSerialConnected() then
-    begin
-        closeButton.Enabled := False;
-        serialPort.Purge();
-        serialPort.CloseSocket();
-        serialThr.Terminate();
-        FreeAndNil(serialPort);
-    end;
+    closeButton.Enabled := False;
+    openButton.Enabled := True;
+    serialComboBox.Enabled := True;
 end;
 
 procedure SerialPortFrame.processReceivedSerialData(Data: string);
@@ -275,7 +252,7 @@ begin
     box.ShowModal;
 end;
 
-function SerialPortFrame.ConfigureSerial(serial: TBlockSerial): boolean;
+function SerialPortFrame.ConfigureSerial(serial: SerialThread): boolean;
 var
     baudRate: integer;
     databit: integer;
@@ -307,16 +284,30 @@ begin
         //else
         //  stopbit := SB1;
     end;
+    serialThr.ConfigureSerial(baudRate, databit, paritybit, stopbit, False, False);
     Exit(True);
+end;
+
+procedure SerialPortFrame.OnSerialConnected;
+begin
+    serialComboBox.Enabled := False;
+    openButton.Enabled := False;
+    closeButton.Enabled := True;
+    ConfigureSerial(serialThr);
+end;
+
+procedure SerialPortFrame.OnSerialConnectedFailed;
+begin
+    showWarnBox('串口打开失败');
+    openButton.Enabled := True;
+    closeButton.Enabled := False;
 end;
 
 constructor SerialPortFrame.Create(TheOwner: TComponent);
 begin
     inherited Create(TheOwner);
-    serialPort := TBlockSerial.Create;
     // 接收到\n即换行
     RecvMemo.Lines.TextLineBreakStyle := tlbsLF;
 end;
 
 end.
-

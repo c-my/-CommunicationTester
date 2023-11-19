@@ -6,7 +6,8 @@ interface
 
 uses
     Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
-    ComCtrls, Spin, SpinEx, Synaser, SerialManager, Types, SerialPortFrameUnit;
+    ComCtrls, Spin, MaskEdit, SpinEx, Synaser, SerialManager, Types,
+    SerialPortFrameUnit, TCPFrameUnit;
 
 type
 
@@ -45,8 +46,6 @@ implementation
 //    CloseSerial();
 //    FreeAndNil(serialPort);
 //end;
-
-
 
 
 
