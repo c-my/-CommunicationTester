@@ -5,8 +5,8 @@ unit mainunit;
 interface
 
 uses
-    Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
-    ComCtrls, Spin, MaskEdit, SpinEx, Synaser, SerialManager, Types,
+    Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls,
+    ComCtrls, MaskEdit, SpinEx, Synaser, SerialManager,
     SerialPortFrameUnit, TCPFrameUnit;
 
 type

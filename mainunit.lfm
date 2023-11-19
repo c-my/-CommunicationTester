@@ -22,7 +22,7 @@ object MainForm: TMainForm
     Height = 580
     Top = 10
     Width = 940
-    ActivePage = TabSheet2
+    ActivePage = SerialTabSheet
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Left = 10
     BorderSpacing.Top = 10
@@ -34,7 +34,7 @@ object MainForm: TMainForm
     Font.Pitch = fpVariable
     Font.Quality = fqDraft
     ParentFont = False
-    TabIndex = 1
+    TabIndex = 0
     TabOrder = 0
     object SerialTabSheet: TTabSheet
       Caption = '串口'

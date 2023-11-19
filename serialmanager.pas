@@ -69,21 +69,26 @@ end;
 
 procedure SerialThread.Close;
 begin
-    MserialPort.Purge();
-    MserialPort.CloseSocket();
-    Terminate();
-    FreeAndNil(MserialPort);
-    ProcessOnCloseEvent();
+    if MserialPort <> nil then
+    begin
+        MserialPort.Purge();
+        MserialPort.CloseSocket();
+        Terminate();
+        FreeAndNil(MserialPort);
+        ProcessOnCloseEvent();
+    end;
 end;
 
 procedure SerialThread.SendString(Data: ansistring);
 begin
-    MserialPort.SendString(Data);
+    if (MserialPort <> nil) and isConnected() then
+        MserialPort.SendString(Data);
 end;
 
 function SerialThread.SendBuffer(buffer: pointer; length: integer): integer;
 begin
-    Result := MserialPort.SendBuffer(buffer, length);
+    if (MserialPort <> nil) and isConnected() then
+        Result := MserialPort.SendBuffer(buffer, length);
 end;
 
 procedure SerialThread.ConfigureSerial(baud, bits: integer; parity: char;
